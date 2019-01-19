@@ -1,3 +1,7 @@
-requests
+request
 wolframalpha
 googletrans
+flask
+render_template
+googletrans
+json
