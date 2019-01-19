@@ -7,12 +7,12 @@ h1 {
     margin-bottom: 0;
     margin-top: 0;
     text-align: center;
-    font-size: 40px;
+    font-size: 5vw;
 }
 
 h3 {
     color: black;
-    font-size: 20px;
+    font-size: 2vw;
     margin-top: 3px;
     text-align: center;
 }
@@ -36,7 +36,7 @@ h3 {
     border: none;
     border-bottom: 3px solid #CEB888;
     font-family: Ubuntu Mono;
-    font-size: 17px;
+    font-size: 2vw;
 }
 
 #buttonInput {
@@ -48,7 +48,7 @@ h3 {
 .userText {
     color: black;
     font-family: Ubuntu Mono;
-    font-size: 17px;
+    font-size: 2vw;
     text-align: right;
     line-height: 30px;
 }
@@ -61,8 +61,8 @@ h3 {
 
 .botText {
     color: white;
-    font-family: Ubuntu
-    font-size: 17px;
+    font-family: Ubuntu;
+    font-size: 2vw;
     text-align: left;
     line-height: 30px;
 }

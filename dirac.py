@@ -4,7 +4,7 @@ Carlos Saucedo, David Risi, Liz Parra
 2019
 """
 
-import json
+import json, os
 import Mods.wolfram as wolfram
 import Mods.CleverApi as cleverbot
 from googletrans import Translator
@@ -41,6 +41,8 @@ def ask(queryText):
     of APIs.
     """
 
+    # Dwolla
+
     # Google Translate integration.
     if(queryText.lower().startswith("translate")):
         return trans.translate(getRawText(queryText, "translate")).text
@@ -53,7 +55,6 @@ def ask(queryText):
         translatedText = translatedText.replace("nyanya", "nya")
         translatedText += " desu~"
         return translatedText
-
 
     # Checking for the Wolfram response.
     try:
