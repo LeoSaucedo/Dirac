@@ -35,16 +35,27 @@ def getRawText(text, command):
     return text.replace(command + " ", "")
 
 def ask(queryText):
+    """
+    Ask function. Returns the created
+    response using a variety
+    of APIs.
+    """
+
     # Google Translate integration.
     if(queryText.lower().startswith("translate")):
         return trans.translate(getRawText(queryText, "translate")).text
 
     # Checking for the Wolfram response.
-    wolframResponse = wolframClient.ask(queryText)
-    if(wolframResponse != False):
-        return(wolframResponse)
-    
+    try:
+        wolframResponse = wolframClient.ask(queryText)
+        if(wolframResponse != False):
+            return(wolframResponse)
+    except:
+        print("Wolfram error.")
     # Checking for the CleverBot response.
-    cleverResponse = clever.ask(queryText)
-    if(cleverResponse != False):
-        return(cleverResponse)
+    try:
+        cleverResponse = clever.ask(queryText)
+        if(cleverResponse != False):
+            return(cleverResponse)
+    except:
+        print("CleverBot error.")
