@@ -13,7 +13,7 @@ class Client(object):
     # Processes a user query.
     def ask(self, queryText):
         res = self.client.query(queryText)
-        if(len(res.results) < 1):
-            return("null")
-        else:
+        try:
             return next(res.results).text
+        except Exception as noResponse:
+            return False
