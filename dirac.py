@@ -45,6 +45,16 @@ def ask(queryText):
     if(queryText.lower().startswith("translate")):
         return trans.translate(getRawText(queryText, "translate")).text
 
+    # OwO
+    elif(queryText.lower().startswith("owo")):
+        translatedText = queryText.replace("r", "w")
+        translatedText = translatedText.replace("l", "w")
+        translatedText = translatedText.replace("n", "nya")
+        translatedText = translatedText.replace("nyanya", "nya")
+        translatedText += " desu~"
+        return translatedText
+
+
     # Checking for the Wolfram response.
     try:
         wolframResponse = wolframClient.ask(queryText)
