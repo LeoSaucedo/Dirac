@@ -19,10 +19,14 @@
       <script>
         // Global variables
         gameIsActive = false;
-        gameType = "tip"
         gameStage = "init"
         price = 0;
         percentTip = 0.00;
+        loan = 0;
+        compoundRate = 0;
+        simpleRate = 0;
+        sPrice = 0;
+        cPrice = 0;
 
         // Sends a bot message.
         function setBotMessage(text){
@@ -39,7 +43,7 @@
         function tip_instructions(){
           // Tip activity
           gameIsActive = true;
-          gameStage = "serverRate";
+          gameStage = "tip_serverRate";
           price = Math.floor((Math.random() * 26) + 15);
           setBotMessage("You are a customer at a restaurant.");
           setBotMessage("You have finished your meal and your server hands you the check.");
@@ -47,32 +51,86 @@
           setBotMessage("How was your server? (good, average, bad)");
         }
         function tip_rate(rating){
-          gameStage = "checkTip";
+          inputCorrect = false;
           if(rating == "good"){
             percentTip = 0.20;
+            inputCorrect = true;
           }else if(rating == "average"){
             percentTip = 0.15;
-          }else{
+            inputCorrect = true;
+          }else if(rating == "bad"){
             percentTip = 0.10;
+            inputCorrect = true;
+          }else{
+            invalidOption();
           }
-          setBotMessage("Since your server is " + rating + ", they should receive a "
-                         + (percentTip * 100) + " percent tip.");
-          setBotMessage("How much should they be paid?");
+          if(inputCorrect){
+            gameStage = "tip_check";
+            setBotMessage("Since your server is " + rating + ", they should receive a "
+                          + (percentTip * 100).toFixed(2) + " percent tip.");
+            setBotMessage("How much should they be paid?");
+          }
         }
         function tip_check(tip){
           gameIsActive = false;
           gameStage = "init";
-          gameType = "None";
           if(tip == price * percentTip){
             setBotMessage("Correct! Thanks for playing!");
             setBotMessage("Anything else I can help with?");
           }else{
             setBotMessage("Wrong. :c");
-            setBotMessage("The correct answer was: $" + price * percentTip + ".");
+            setBotMessage("The correct answer was: $" + (price * percentTip).toFixed(2) + ".");
             setBotMessage("Thanks for playing!");
             setBotMessage("Anything else I can help with?");
           }
         }
+
+        function interest_instructions(){
+          gameIsActive = true;
+          gameStage = "int_checkAns";
+
+          // Quick maths
+          loan = ((Math.floor((Math.random() * 10)) * 10000) + 90000);
+          compoundRate = (Math.floor(Math.random() * 6) + 45) / 1000;
+          simpleRate = compoundRate + 0.2;
+          sPrice = loan * (1 + simpleRate * 30);
+          cPrice = loan * Math.pow(1 + simpleRate, 25);
+
+          // Introduction text
+          setBotMessage("You are in need of cash to buy your first house.");
+          setBotMessage("In order to get the money to pay for the house quickly, you take out a $" + loan.toFixed(2) + " loan.");
+          setBotMessage("You are given the option of two different types of loans:");
+          setBotMessage("The first loan has yearly simple interest for 30 years at a rate of " + (simpleRate * 100).toFixed(2) + "%.");
+          setBotMessage("The second loan has yearly compound interest for 25 years, once a year, at a rate of " + (compoundRate * 100).toFixed(2) + "%.");
+          setBotMessage("Which loan should you take? (simple[1] or compound[2])?");
+        }
+        function interest_check(option){
+          inputCorrect = false;
+          if(option == 1){
+            setBotMessage("That's correct! But, do you know why?");
+            inputCorrect = true;
+          }
+          else if(option == 2){
+            setBotMessage("Sorry, but that's not correct. Let me explain: ");
+            inputCorrect = true;
+          }else{
+            invalidOption();
+          }
+          if(inputCorrect){
+            setBotMessage("The formula for calculating this is: A = P + Prt");
+            setBotMessage("Where 'A' is the final value, 'P' is the loan value, and 'Prt' is the formula for the interest.");
+            setBotMessage("'r' is the yearly interest rate and 't' is the time in years after the loan was taken.");
+            setBotMessage("This can be simplified to: A = P(1 + rt)");
+            setBotMessage("Given the values, the total price for the simple interest loan would be: $" + sPrice.toFixed(2) + ".");
+            setBotMessage("For yearly compound interest, the interest is based on the total loan value.");
+            setBotMessage("The formula for calculating this is: A = P(1 + r/n)^(nt).");
+            setBotMessage("The only additional variable is n, which is the number of times compounded yearly.");
+            setBotMessage("Given the values, the total price for the compound interest loan would be: $" + cPrice.toFixed(2) + ".");
+            setBotMessage("Thanks for playing!");
+            setBotMessage("Anything else I can help you with?");
+          }
+        }
+
         function invalidOption(){
           setBotMessage("Invalid option, try again...");
         }
@@ -104,14 +162,19 @@
             if(e.which == 13) {
                 text = $("#textInput").val()
                 setUserMessage(text);
+                text = text.replace("$", "");
                 if(gameIsActive){
-                  if(gameStage == "serverRate"){
+                  if(gameStage == "tip_serverRate"){
                     tip_rate(text);
-                  }else if(gameStage == "checkTip"){
+                  }else if(gameStage == "tip_check"){
                     tip_check(text);
+                  }else if(gameStage == "int_checkAns"){
+                    interest_check(text);
                   }
-                }else if(text.includes("tip")){
+                }else if(text.toLowerCase().includes("tip")){
                   tip_instructions();
+                }else if(text.toLowerCase().includes("interest")){
+                  interest_instructions();
                 }
                 else{getBotResponse(text);
                 }
@@ -120,14 +183,19 @@
         $("#buttonInput").click(function() {
           text = $("#textInput").val()
           setUserMessage(text);
+          text = text.replace("$", "");
           if(gameIsActive){
-            if(gameStage == "serverRate"){
+            if(gameStage == "tip_serverRate"){
               tip_rate(text);
-            }else if(gameStage == "checkTip"){
+            }else if(gameStage == "tip_check"){
               tip_check(text);
+            }else if(gameStage == "int_checkAns"){
+              intrest_check(text);
             }
           }else if(text.includes("tip")){
             tip_instructions();
+          }else if(text.includes("interest")){
+            interest_instructions();
           }
           else{
             getBotResponse(text);
