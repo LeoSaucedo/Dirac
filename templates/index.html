@@ -109,18 +109,17 @@
           inputCorrect = false;
           if(option == 1){
             setBotMessage("That's correct! But, do you know why?");
-            gameIsActive = false;
-            gameStage = "init";
+            
           }
           else if(option == 2){
             setBotMessage("Sorry, but that's not correct. Let me explain: ");
             inputCorrect = true;
-            gameIsActive = false
-            gameStage = "init";
           }else{
             invalidOption();
           }
           if(inputCorrect){
+            gameIsActive = false;
+            gameStage = "init";
             setBotMessage("The formula for calculating this is: A = P + Prt");
             setBotMessage("Where 'A' is the final value, 'P' is the loan value, and 'Prt' is the formula for the interest.");
             setBotMessage("'r' is the yearly interest rate and 't' is the time in years after the loan was taken.");
