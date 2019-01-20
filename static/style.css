@@ -85,7 +85,7 @@ h3 {
 
 @media screen and (min-width: 800px) {
     body {
-        font-family: Garamond;
+        font-family: Ubuntu;
     }
     
     h1 {
@@ -121,19 +121,19 @@ h3 {
         width: 87%;
         border: none;
         border-bottom: 3px solid #CEB888;
-        font-family: monospace;
+        font-family: Ubuntu;
         font-size: 17px;
     }
     
     #buttonInput {
         padding: 3px;
-        font-family: monospace;
+        font-family: Ubuntu;
         font-size: 17px;
     }
     
     .userText {
         color: black;
-        font-family: monospace;
+        font-family: Ubuntu;
         font-size: 17px;
         text-align: right;
         line-height: 30px;
@@ -147,7 +147,7 @@ h3 {
     
     .botText {
         color: white;
-        font-family: monospace;
+        font-family: Ubuntu;
         font-size: 17px;
         text-align: left;
         line-height: 30px;
