@@ -118,6 +118,7 @@ h3 {
     }
     
     #textInput {
+	height: 20px;
         width: 87%;
         border: none;
         border-bottom: 3px solid #CEB888;
