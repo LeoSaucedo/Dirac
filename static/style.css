@@ -59,7 +59,7 @@ h3 {
 .userText span {
     background-color: #CEB888;
     padding: 10px;
-    border-radius: 2px;
+    border-radius: 20px;
 }
 
 .botText {
@@ -84,7 +84,7 @@ h3 {
     width: 500px;
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 1250px) {
     body {
         font-family: Roboto;
     }
