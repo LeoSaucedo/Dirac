@@ -1,5 +1,6 @@
 # Testing files
 cli.py
+app_local.py
 
 # Configuration files
 *.json
