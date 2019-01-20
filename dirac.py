@@ -43,22 +43,23 @@ def ask(queryText):
     of APIs.
     """
     # FinLit module.
-    if(queryText.lower().includes("play")):
+    if( "play" in queryText.lower()):
         response = "Want to play some of my financial games?"
         response += "\nWhich one? Tip Game or Interest game?"
         return response
-    elif(queryText.lower().includes("tip")):
+    elif("tip" in queryText.lower()):
         # Tip game
         response = "Great! Here's the Tip Game: "
         return response
-    elif(queryText.lower().includes("interest")):
+    elif("interest" in queryText.lower()):
         # Interest game
         response = "Great! Here's the Interest Game:"
     
     # PayPal.me integration.
     elif(queryText.lower().startswith("pay")):
-        rawInput = (getRawText(queryText, "pay")).replace("$", "").split
-        return("https://paypal.me/" + rawInput[1] + "/" + rawInput[2])
+        queryText = queryText.lower().replace("$", "").split()
+        parsedLink = "https://paypal.me/" + str(queryText[1]) + "/" + str(queryText[2])
+        return(parsedLink)
     # Google Translate integration.
     elif(queryText.lower().startswith("translate")):
         return trans.translate(getRawText(queryText, "translate")).text
