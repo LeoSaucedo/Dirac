@@ -1,16 +1,14 @@
 """
 Dirac bot.
-Carlos Saucedo, David Risi, Liz Parra
+Carlos Saucedo, David Risi
 2019
 """
 
-import json, os, dwollav2
+import json, os
 import Mods.wolfram as wolfram
 import Mods.CleverApi as cleverbot
 from googletrans import Translator
-
-finlit = False
-
+    
 with open("config.json","r") as h:
     config = json.load(h)
 
@@ -45,27 +43,15 @@ def ask(queryText):
     # Help function.
     if(queryText.lower().startswith("help")):
         out = "I can help you with many things:\n"
-        out += "\t1. Find your nearest ATM\n"
-        out += "\t2. Pay your friends on Paypal.Me\n"
-        out += "\t3. Practice financial literacy\n"
-        out += "\t4. Get help. I'm here to talk <3\n"
-        out += "\t5. General knowledge questions about the world (yes, even your math homework!)"
+        out += "1. Find your nearest ATM\n"
+        out += "2. Pay your friends on Paypal.Me\n"
+        out += "3. Practice financial literacy\n"
+        out += "4. Get help. I'm here to talk <3\n"
+        out += "5. General knowledge questions about the world (yes, even your math homework!)\n"
         return out
-    # FinLit module.
-    elif( "play" in queryText.lower()):
-        response = "Want to play some of my financial games?"
-        response += "\nWhich one? Tip Game or Interest game?"
-        return response
-    elif("tip" in queryText.lower()):
-        # Tip game
-        response = "Great! Here's the Tip Game: "
-        return response
-    elif("interest" in queryText.lower()):
-        # Interest game
-        response = "Great! Here's the Interest Game:"
     
     # PayPal.me integration.
-    elif(queryText.lower().startswith("pay")):
+    elif(queryText.lower().startswith("pay") or queryText.lower().startswith("give")):
         queryText = queryText.lower().replace("$", "").split()
         parsedLink = "https://paypal.me/" + str(queryText[1]) + "/" + str(queryText[2])
         return(parsedLink)

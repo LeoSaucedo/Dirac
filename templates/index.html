@@ -4,7 +4,6 @@
     <link rel="stylesheet" type="text/css" href="/static/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu" />
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu+Mono" />
   </head>
   <body>
     <h1>Dirac_AI</h1>
@@ -18,30 +17,123 @@
         <input id="buttonInput" type="submit" value="Send">
       </div>
       <script>
-        function getBotResponse() {
-          var rawText = $("#textInput").val();
-          var userHtml = '<p class="userText"><span>' + rawText + '</span></p>';
+        // Global variables
+        gameIsActive = false;
+        gameType = "tip"
+        gameStage = "init"
+        price = 0;
+        percentTip = 0.00;
+
+        // Sends a bot message.
+        function setBotMessage(text){
+          var botHtml = '<p class="botText"><span>' + text + '</span></p>';
+          $("#chatbox").append(botHtml);
+          document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+        }
+        function setUserMessage(text){
+          var userHtml = '<p class="userText"><span>' + text + '</span></p>';
           $("#textInput").val("");
           $("#chatbox").append(userHtml);
           document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+        }
+        function tip_instructions(){
+          // Tip activity
+          gameIsActive = true;
+          gameStage = "serverRate";
+          price = Math.floor((Math.random() * 26) + 15);
+          setBotMessage("You are a customer at a restaurant.");
+          setBotMessage("You have finished your meal and your server hands you the check.");
+          setBotMessage("The check totals to $" + price +  ", but you must add the tip.");
+          setBotMessage("How was your server? (good, average, bad)");
+        }
+        function tip_rate(rating){
+          gameStage = "checkTip";
+          if(rating == "good"){
+            percentTip = 0.20;
+          }else if(rating == "average"){
+            percentTip = 0.15;
+          }else{
+            percentTip = 0.10;
+          }
+          setBotMessage("Since your server is " + rating + ", they should receive a "
+                         + (percentTip * 100) + " percent tip.");
+          setBotMessage("How much should they be paid?");
+        }
+        function tip_check(tip){
+          gameIsActive = false;
+          gameStage = "init";
+          gameType = "None";
+          if(tip == price * percentTip){
+            setBotMessage("Correct! Thanks for playing!");
+            setBotMessage("Anything else I can help with?");
+          }else{
+            setBotMessage("Wrong. :c");
+            setBotMessage("The correct answer was: $" + price * percentTip + ".");
+            setBotMessage("Thanks for playing!");
+            setBotMessage("Anything else I can help with?");
+          }
+        }
+        function invalidOption(){
+          setBotMessage("Invalid option, try again...");
+        }
+        // Gets a bot response.
+        function getBotResponse(query) {
+          var rawText = query
           $.get("/get", { msg: rawText }).done(function(data) {
-            if(data.includes("https://")){
+            if(data.includes("\n")){
+              for(i = 0; i < data.length; i++){
+                if(data[i] == '\n'){
+                  var botHtml = '<p class="botText"><span>' + data.substring(0, i) + '</span></p>';
+                  $("#chatbox").append(botHtml);
+                  document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+                  data = data.substring(i+1)
+                  i = 0
+                }
+              }
+            }
+            // Opens a new window if the return statement is a website.
+            else if(data.includes("https://")){
               window.open(data);
             }else{
-              var botHtml = '<p class="botText"><span>' + data + '</span></p>';
-              $("#chatbox").append(botHtml);
-              document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+              // Generates 
+              setBotMessage(data);
             }
           });
         }
         $("#textInput").keypress(function(e) {
             if(e.which == 13) {
-                getBotResponse();
-            }
-        });
+                text = $("#textInput").val()
+                setUserMessage(text);
+                if(gameIsActive){
+                  if(gameStage == "serverRate"){
+                    tip_rate(text);
+                  }else if(gameStage == "checkTip"){
+                    tip_check(text);
+                  }
+                }else if(text.includes("tip")){
+                  tip_instructions();
+                }
+                else{getBotResponse(text);
+                }
+              $("#textInput").val("");
+        }});
         $("#buttonInput").click(function() {
-          getBotResponse();
-        })
+          text = $("#textInput").val()
+          setUserMessage(text);
+          if(gameIsActive){
+            if(gameStage == "serverRate"){
+              tip_rate(text);
+            }else if(gameStage == "checkTip"){
+              tip_check(text);
+            }
+          }else if(text.includes("tip")){
+            tip_instructions();
+          }
+          else{
+            getBotResponse(text);
+        }
+        $("#textInput").val("");
+        });
       </script>
     </div>
   </body>

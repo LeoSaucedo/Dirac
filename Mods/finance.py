@@ -9,7 +9,7 @@ class Literacy(object):
         text = "You are a customer at a restaurant."
         text += "\nYou have finished your meal and your server hands you your check."
         text += "\nThe check totals to " + str(price) + "$, but you must add the tip."
-        text += "\n\nHow was your server? (good, average, bad)"
+        text += "\nHow was your server? (good, average, bad)"
         server = input(text)
 
         while (server != "good" and server != "average" and server != "bad"):
@@ -22,7 +22,7 @@ class Literacy(object):
             percentTip = .10
 
         text = "Since your server is " + str(server) + ",\n they should receive a " + str(percentTip * 100) + "% tip."
-        text += "\n\nWhat is the tip, in dollars, that should be paid?"
+        text += "\nWhat is the tip, in dollars, that should be paid?"
         tip = input(text)
         correctTip = price * percentTip
 
@@ -43,10 +43,10 @@ class Literacy(object):
 
         text = "You are in need of cash to buy your first house."
         text += "\nIn order to get the money to pay for the house quickly, you take out a " + str(loan) + "$ loan."
-        text += "\n\nYou are given the option of two different types of loans:"
+        text += "\nYou are given the option of two different types of loans:"
         text += "\nThe first loan has yearly simple interest for 30 years at a rate of " + str(simpleRate * 100) + "%."
         text += "\nThe second loan has yearly compound interest for 25 years, once a year, at a rate of " + str(compoundRate * 100) + "%."
-        text += "\n\nWhich loan should you take? (simple[1] or compound[2]"
+        text += "\nWhich loan should you take? (simple[1] or compound[2])?"
         choice = input(text)
         
         while ((choice > 2) or (choice < 1)):
@@ -64,11 +64,8 @@ class Literacy(object):
         text += "\n'r' is the yearly interest rate and 't' is the time in years after the loan was taken."
         text += "\nThis can be simplified to: A = P(1 + rt)"
         text += "\nGiven the values, the total price for the simple interest loan would be: " + str(sPrice)
-        text += "\n\nFor yearly compound interest, the interest is based on the total loan value"
+        text += "\nFor yearly compound interest, the interest is based on the total loan value"
         text += "\nThe formula for calculating this is: A = P(1 + r/n)^(nt)"
         text += "\nThe only additional variable is n, which is the number of times compounded yearly."
         text += "\nGiven the values, the total price for the compound interest loan would be: " + str(cPrice)
         print(text)
-
-
-        
