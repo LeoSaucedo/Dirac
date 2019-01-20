@@ -162,7 +162,7 @@
             if(e.which == 13) {
                 text = $("#textInput").val()
                 setUserMessage(text);
-                text = text.replace("$", "");
+                text = text.replace("$", "").toLowerCase();
                 if(gameIsActive){
                   if(gameStage == "tip_serverRate"){
                     tip_rate(text);
@@ -171,9 +171,9 @@
                   }else if(gameStage == "int_checkAns"){
                     interest_check(text);
                   }
-                }else if(text.toLowerCase().includes("tip")){
+                }else if(text.includes("tip")){
                   tip_instructions();
-                }else if(text.toLowerCase().includes("interest")){
+                }else if(text.includes("interest")){
                   interest_instructions();
                 }
                 else{getBotResponse(text);

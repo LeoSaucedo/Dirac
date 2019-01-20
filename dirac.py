@@ -77,6 +77,7 @@ def ask(queryText):
             return(wolframResponse)
     except:
         print("Wolfram error.")
+
     # Checking for the CleverBot response.
     try:
         cleverResponse = clever.ask(queryText)
