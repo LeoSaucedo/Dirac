@@ -42,8 +42,17 @@ def ask(queryText):
     response using a variety
     of APIs.
     """
+    # Help function.
+    if(queryText.lower().startswith("help")):
+        out = "I can help you with many things:\n"
+        out += "\t1. Find your nearest ATM\n"
+        out += "\t2. Pay your friends on Paypal.Me\n"
+        out += "\t3. Practice financial literacy\n"
+        out += "\t4. Get help. I'm here to talk <3\n"
+        out += "\t5. General knowledge questions about the world (yes, even your math homework!)"
+        return out
     # FinLit module.
-    if( "play" in queryText.lower()):
+    elif( "play" in queryText.lower()):
         response = "Want to play some of my financial games?"
         response += "\nWhich one? Tip Game or Interest game?"
         return response
