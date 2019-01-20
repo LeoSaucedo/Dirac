@@ -60,6 +60,8 @@ def ask(queryText):
         queryText = queryText.lower().replace("$", "").split()
         parsedLink = "https://paypal.me/" + str(queryText[1]) + "/" + str(queryText[2])
         return(parsedLink)
+    elif(queryText.lower().startswith("atm")):
+        return "https://www.google.com/maps/search/ATM/"
     # Google Translate integration.
     elif(queryText.lower().startswith("translate")):
         return trans.translate(getRawText(queryText, "translate")).text
